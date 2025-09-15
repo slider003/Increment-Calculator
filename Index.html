@@ -1,0 +1,463 @@
+import React, { useState, useMemo } from ‘react’;
+import { ChevronLeft, ChevronRight, Calendar, Info, Settings } from ‘lucide-react’;
+
+const AdvancedDateCalculator = () => {
+const [startDate, setStartDate] = useState(new Date().toISOString().split(‘T’)[0]);
+const [currentViewMonth, setCurrentViewMonth] = useState(() => {
+const today = new Date();
+return new Date(today.getFullYear(), today.getMonth(), 1);
+});
+const [dayOffset, setDayOffset] = useState(0); // Track days from today
+const [showFormula, setShowFormula] = useState(false);
+const [speedDialDates, setSpeedDialDates] = useState([]);
+const [speedDialLabel, setSpeedDialLabel] = useState(’’);
+const [showSettings, setShowSettings] = useState(false);
+
+// Increment settings
+const [initialIncrement, setInitialIncrement] = useState(7);
+const [incrementStep, setIncrementStep] = useState(2);
+
+// Calculate the sequence of dates based on the custom pattern
+const calculateDateSequence = (start, count = 50) => {
+const dates = [];
+// Parse the date string properly to avoid timezone issues
+const [year, month, day] = start.split(’-’).map(Number);
+let currentDate = new Date(year, month - 1, day); // month is 0-indexed
+dates.push(new Date(currentDate));
+
+```
+let increment = initialIncrement; // Start with custom initial increment
+
+for (let i = 0; i < count; i++) {
+  currentDate = new Date(currentDate.getTime() + increment * 24 * 60 * 60 * 1000);
+  dates.push(new Date(currentDate));
+  increment += incrementStep; // Increase by custom step each time
+}
+
+return dates;
+```
+
+};
+
+const dateSequence = useMemo(() => {
+return calculateDateSequence(startDate);
+}, [startDate, initialIncrement, incrementStep]);
+
+// Get current date info
+const today = new Date();
+const todayStr = today.toDateString();
+
+// Find dates around today
+const findDatesAroundToday = () => {
+const todayTime = today.getTime();
+let closestIndex = 0;
+let minDiff = Math.abs(dateSequence[0].getTime() - todayTime);
+
+```
+dateSequence.forEach((date, index) => {
+  const diff = Math.abs(date.getTime() - todayTime);
+  if (diff < minDiff) {
+    minDiff = diff;
+    closestIndex = index;
+  }
+});
+
+return {
+  past: dateSequence.slice(Math.max(0, closestIndex - 3), closestIndex),
+  closest: dateSequence[closestIndex],
+  future: dateSequence.slice(closestIndex + 1, closestIndex + 6)
+};
+```
+
+};
+
+const aroundToday = findDatesAroundToday();
+
+// Calendar helper functions
+const getDaysInMonth = (date) => {
+const year = date.getFullYear();
+const month = date.getMonth();
+return new Date(year, month + 1, 0).getDate();
+};
+
+const getFirstDayOfMonth = (date) => {
+const year = date.getFullYear();
+const month = date.getMonth();
+return new Date(year, month, 1).getDay();
+};
+
+const isDateInSequence = (date) => {
+return dateSequence.some(seqDate =>
+seqDate.toDateString() === date.toDateString()
+);
+};
+
+const isToday = (date) => {
+return date.toDateString() === todayStr;
+};
+
+const formatDate = (date) => {
+return date.toLocaleDateString(‘en-US’, {
+weekday: ‘short’,
+year: ‘numeric’,
+month: ‘short’,
+day: ‘numeric’
+});
+};
+
+const renderCalendar = () => {
+const year = currentViewMonth.getFullYear();
+const month = currentViewMonth.getMonth();
+const daysInMonth = getDaysInMonth(currentViewMonth);
+const firstDay = getFirstDayOfMonth(currentViewMonth);
+const days = [];
+
+```
+// Empty cells for days before the first day of the month
+for (let i = 0; i < firstDay; i++) {
+  days.push(<div key={`empty-${i}`} className="h-8"></div>);
+}
+
+// Days of the month
+for (let day = 1; day <= daysInMonth; day++) {
+  const date = new Date(year, month, day);
+  const inSequence = isDateInSequence(date);
+  const isTodayDate = isToday(date);
+
+  days.push(
+    <div
+      key={day}
+      className={`h-8 w-8 flex items-center justify-center text-sm rounded-full border
+        ${inSequence 
+          ? 'bg-blue-500 text-white border-blue-600 font-bold' 
+          : 'border-gray-200'
+        }
+        ${isTodayDate 
+          ? 'ring-2 ring-red-400' 
+          : ''
+        }
+      `}
+    >
+      {day}
+    </div>
+  );
+}
+
+return days;
+```
+
+};
+
+const changeMonth = (direction) => {
+const daysToMove = direction * 30; // Move by ~30 days (roughly a month)
+const newOffset = dayOffset + daysToMove;
+setDayOffset(newOffset);
+
+```
+// Calculate the new month to display based on day offset
+const today = new Date();
+const targetDate = new Date(today.getTime() + (newOffset * 24 * 60 * 60 * 1000));
+const newViewMonth = new Date(targetDate.getFullYear(), targetDate.getMonth(), 1);
+
+console.log('Day offset:', newOffset, 'Target date:', targetDate, 'New month:', newViewMonth);
+setCurrentViewMonth(newViewMonth);
+```
+
+};
+
+const saveSpeedDialDate = () => {
+if (speedDialLabel.trim()) {
+const newSpeedDial = {
+id: Date.now(),
+label: speedDialLabel.trim(),
+date: startDate,
+initialIncrement,
+incrementStep
+};
+setSpeedDialDates([…speedDialDates, newSpeedDial]);
+setSpeedDialLabel(’’);
+}
+};
+
+const selectSpeedDialDate = (item) => {
+setStartDate(item.date);
+setInitialIncrement(item.initialIncrement);
+setIncrementStep(item.incrementStep);
+};
+
+const deleteSpeedDialDate = (id) => {
+setSpeedDialDates(speedDialDates.filter(item => item.id !== id));
+};
+
+// Generate increment sequence preview
+const getIncrementSequence = (count = 8) => {
+const increments = [];
+for (let i = 0; i < count; i++) {
+increments.push(initialIncrement + (incrementStep * i));
+}
+return increments;
+};
+
+return (
+<div className="p-6 max-w-4xl mx-auto bg-white">
+<h1 className="text-2xl font-bold mb-6 text-center text-gray-800">
+Advanced Date Calculator
+</h1>
+
+```
+  {/* Start Date Input */}
+  <div className="mb-6">
+    <label className="block text-sm font-medium text-gray-700 mb-2">
+      Start Date:
+    </label>
+    <input
+      type="date"
+      value={startDate}
+      onChange={(e) => setStartDate(e.target.value)}
+      className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+    />
+  </div>
+
+  {/* Increment Settings */}
+  <div className="mb-6 bg-purple-50 border border-purple-200 rounded-lg p-4">
+    <button
+      onClick={() => setShowSettings(!showSettings)}
+      className="flex items-center gap-2 font-semibold text-purple-800 hover:text-purple-900 mb-3"
+    >
+      <Settings className="h-5 w-5" />
+      Increment Settings {showSettings ? '(Hide)' : '(Show)'}
+    </button>
+    
+    {showSettings && (
+      <div className="space-y-4">
+        <div className="grid md:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Initial Increment (days):
+            </label>
+            <input
+              type="number"
+              min="1"
+              max="365"
+              value={initialIncrement}
+              onChange={(e) => setInitialIncrement(Number(e.target.value))}
+              className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            />
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Increment Step (days to add each time):
+            </label>
+            <input
+              type="number"
+              min="0"
+              max="30"
+              value={incrementStep}
+              onChange={(e) => setIncrementStep(Number(e.target.value))}
+              className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            />
+          </div>
+        </div>
+        
+        <div>
+          <h4 className="text-sm font-medium text-gray-700 mb-2">Increment Sequence Preview:</h4>
+          <div className="bg-white p-3 rounded border text-sm">
+            {getIncrementSequence().join(' → ')} days...
+          </div>
+        </div>
+      </div>
+    )}
+  </div>
+
+  {/* Speed Dial Dates */}
+  <div className="mb-6 bg-green-50 border border-green-200 rounded-lg p-4">
+    <h3 className="font-semibold text-green-800 mb-3">Speed-Dial Dates</h3>
+    
+    {/* Save current date */}
+    <div className="flex gap-2 mb-3">
+      <input
+        type="text"
+        placeholder="Enter label for current settings"
+        value={speedDialLabel}
+        onChange={(e) => setSpeedDialLabel(e.target.value)}
+        className="flex-1 border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+        onKeyPress={(e) => e.key === 'Enter' && saveSpeedDialDate()}
+      />
+      <button
+        onClick={saveSpeedDialDate}
+        disabled={!speedDialLabel.trim()}
+        className="bg-green-500 text-white px-4 py-2 rounded-md text-sm hover:bg-green-600 disabled:bg-gray-300 disabled:cursor-not-allowed"
+      >
+        Save
+      </button>
+    </div>
+
+    {/* Display saved dates */}
+    {speedDialDates.length > 0 && (
+      <div className="space-y-2">
+        <h4 className="text-sm font-medium text-gray-700">Saved Configurations:</h4>
+        {speedDialDates.map((item) => (
+          <div key={item.id} className="flex items-center justify-between bg-white p-2 rounded border">
+            <div className="flex-1">
+              <span className="font-medium text-gray-800">{item.label}</span>
+              <div className="text-xs text-gray-500">
+                Date: {new Date(item.date + 'T00:00:00').toLocaleDateString()} | 
+                Pattern: {item.initialIncrement}+{item.incrementStep} days
+              </div>
+            </div>
+            <div className="flex gap-2">
+              <button
+                onClick={() => selectSpeedDialDate(item)}
+                className="bg-blue-500 text-white px-3 py-1 rounded text-sm hover:bg-blue-600"
+              >
+                Use
+              </button>
+              <button
+                onClick={() => deleteSpeedDialDate(item.id)}
+                className="bg-red-500 text-white px-3 py-1 rounded text-sm hover:bg-red-600"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+    )}
+
+    {speedDialDates.length === 0 && (
+      <p className="text-sm text-gray-500 italic">No saved configurations yet. Enter a label above to save the current date and increment settings.</p>
+    )}
+  </div>
+
+  {/* Current Date Info */}
+  <div className="bg-gray-50 p-4 rounded-lg mb-6">
+    <h3 className="font-semibold text-gray-800 mb-3">Today: {todayStr}</h3>
+    
+    <div className="grid md:grid-cols-3 gap-4">
+      <div>
+        <h4 className="font-medium text-gray-700 mb-2">Recent Dates:</h4>
+        {aroundToday.past.map((date, index) => (
+          <div key={index} className="text-sm text-gray-600">
+            {formatDate(date)}
+          </div>
+        ))}
+      </div>
+      
+      <div>
+        <h4 className="font-medium text-gray-700 mb-2">Closest Date:</h4>
+        <div className="text-sm font-semibold text-blue-600">
+          {formatDate(aroundToday.closest)}
+        </div>
+      </div>
+      
+      <div>
+        <h4 className="font-medium text-gray-700 mb-2">Upcoming Dates:</h4>
+        {aroundToday.future.map((date, index) => (
+          <div key={index} className="text-sm text-gray-600">
+            {formatDate(date)}
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  {/* Calendar */}
+  <div className="bg-white border border-gray-200 rounded-lg p-4 mb-6">
+    <div className="flex items-center justify-between mb-4">
+      <button
+        onClick={() => changeMonth(-1)}
+        className="p-2 hover:bg-gray-100 rounded"
+      >
+        <ChevronLeft className="h-5 w-5" />
+      </button>
+      
+      <div className="text-center">
+        <h3 className="text-lg font-semibold">
+          {currentViewMonth.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
+        </h3>
+        <div className="text-xs text-gray-500">
+          Day offset: {dayOffset} | Viewing: {currentViewMonth.getFullYear()}-{currentViewMonth.getMonth() + 1}
+        </div>
+      </div>
+      
+      <button
+        onClick={() => changeMonth(1)}
+        className="p-2 hover:bg-gray-100 rounded"
+      >
+        <ChevronRight className="h-5 w-5" />
+      </button>
+    </div>
+
+    {/* Calendar Header */}
+    <div className="grid grid-cols-7 gap-1 mb-2">
+      {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
+        <div key={day} className="h-8 flex items-center justify-center text-sm font-medium text-gray-500">
+          {day}
+        </div>
+      ))}
+    </div>
+
+    {/* Calendar Body */}
+    <div className="grid grid-cols-7 gap-1">
+      {renderCalendar()}
+    </div>
+
+    <div className="mt-4 text-xs text-gray-500 flex items-center gap-4">
+      <div className="flex items-center gap-2">
+        <div className="w-4 h-4 bg-blue-500 rounded-full"></div>
+        <span>Calculated Dates</span>
+      </div>
+      <div className="flex items-center gap-2">
+        <div className="w-4 h-4 border-2 border-red-400 rounded-full"></div>
+        <span>Today</span>
+      </div>
+    </div>
+  </div>
+
+  {/* Formula Section */}
+  <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+    <button
+      onClick={() => setShowFormula(!showFormula)}
+      className="flex items-center gap-2 font-semibold text-blue-800 hover:text-blue-900"
+    >
+      <Info className="h-5 w-5" />
+      Mathematical Formula {showFormula ? '(Hide)' : '(Show)'}
+    </button>
+    
+    {showFormula && (
+      <div className="mt-3 text-sm text-gray-700">
+        <p className="mb-2"><strong>Current Pattern Explanation:</strong></p>
+        <ul className="list-disc list-inside space-y-1 mb-3">
+          <li>Start with your chosen date</li>
+          <li>First increment: Add {initialIncrement} days</li>
+          <li>Second increment: Add {initialIncrement + incrementStep} days ({initialIncrement} + {incrementStep})</li>
+          <li>Third increment: Add {initialIncrement + (incrementStep * 2)} days ({initialIncrement + incrementStep} + {incrementStep})</li>
+          <li>Continue adding {incrementStep} more days to each increment</li>
+        </ul>
+        
+        <p className="mb-2"><strong>Custom Formula:</strong></p>
+        <div className="bg-white p-3 rounded border font-mono text-sm">
+          <p>For increment n (where n starts at 1):</p>
+          <p>Increment = {initialIncrement} + {incrementStep} × (n - 1)</p>
+          <p>So: {getIncrementSequence(5).join(', ')}, ...</p>
+          <br />
+          <p>To find the nth date from start:</p>
+          <p>Total days = Σ({initialIncrement} + {incrementStep} × (i - 1)) for i = 1 to n</p>
+          {incrementStep !== 0 && (
+            <p>Simplified: Total days = {initialIncrement - incrementStep}n + {incrementStep}n²/2</p>
+          )}
+          {incrementStep === 0 && (
+            <p>Simplified: Total days = {initialIncrement}n (constant increment)</p>
+          )}
+        </div>
+      </div>
+    )}
+  </div>
+</div>
+```
+
+);
+};
+
+export default AdvancedDateCalculator;
