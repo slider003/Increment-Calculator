@@ -1,4 +1,4 @@
-/* PWA Install Banner Styles - Add this to your existing style.css */
+/* PWA Install Banner Styles - FIXED VERSION */
 
 .install-banner {
     background: linear-gradient(135deg, #3b82f6, #1d4ed8);
@@ -72,57 +72,20 @@
     .install-content div {
         display: flex;
         gap: 8px;
+        justify-content: center;
     }
 }
 
-/* PWA Status Bar adjustments for iOS */
-@supports (-webkit-touch-callout: none) {
-    .container {
-        padding-top: env(safe-area-inset-top);
-        padding-bottom: env(safe-area-inset-bottom);
-    }
-}
-
-/* Full screen mode adjustments */
+/* PWA Status Bar adjustments for iOS - only when installed */
 @media all and (display-mode: standalone) {
     body {
         -webkit-user-select: none;
         -webkit-touch-callout: none;
     }
     
-    /* Hide the browser UI elements when in standalone mode */
     .container {
         min-height: 100vh;
-    }
-}
-
-/* Dark mode support for PWA */
-@media (prefers-color-scheme: dark) {
-    body {
-        background-color: #1f2937;
-        color: #f9fafb;
-    }
-    
-    .container {
-        background: #374151;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
-    }
-    
-    .section {
-        background: #4b5563 !important;
-        border-color: #6b7280;
-        color: #f9fafb;
-    }
-    
-    input {
-        background: #374151;
-        color: #f9fafb;
-        border-color: #6b7280;
-    }
-    
-    .increment-preview {
-        background: #374151;
-        border-color: #6b7280;
-        color: #f9fafb;
+        padding-top: max(24px, env(safe-area-inset-top));
+        padding-bottom: max(24px, env(safe-area-inset-bottom));
     }
 }
