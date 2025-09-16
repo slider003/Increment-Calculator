@@ -12,10 +12,11 @@
         }
         
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             background-color: #f9fafb;
             padding: 20px;
             line-height: 1.6;
+            color: #374151;
         }
         
         .container {
@@ -23,55 +24,82 @@
             margin: 0 auto;
             background: white;
             padding: 24px;
-            border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
         
         h1 {
             text-align: center;
             color: #1f2937;
-            margin-bottom: 24px;
-            font-size: 24px;
-            font-weight: bold;
+            margin-bottom: 32px;
+            font-size: 28px;
+            font-weight: 700;
         }
         
         .section {
             margin-bottom: 24px;
-            padding: 16px;
+            padding: 20px;
             border-radius: 8px;
             border: 1px solid #e5e7eb;
         }
         
-        .section.purple { background: #faf5ff; border-color: #c084fc; }
-        .section.green { background: #f0fdf4; border-color: #4ade80; }
-        .section.gray { background: #f9fafb; border-color: #d1d5db; }
-        .section.blue { background: #eff6ff; border-color: #3b82f6; }
+        .section.purple { 
+            background: #faf5ff; 
+            border-color: #c084fc; 
+        }
+        
+        .section.green { 
+            background: #f0fdf4; 
+            border-color: #4ade80; 
+        }
+        
+        .section.gray { 
+            background: #f9fafb; 
+            border-color: #d1d5db; 
+        }
+        
+        .section.blue { 
+            background: #eff6ff; 
+            border-color: #3b82f6; 
+        }
         
         .section-title {
             font-weight: 600;
-            margin-bottom: 12px;
+            margin-bottom: 16px;
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 8px;
+            font-size: 16px;
         }
         
         .section-title.purple { color: #7c3aed; }
         .section-title.green { color: #059669; }
         .section-title.blue { color: #1d4ed8; }
         
+        label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 6px;
+            color: #374151;
+        }
+        
         input, button {
-            padding: 8px 12px;
+            padding: 10px 12px;
             border: 1px solid #d1d5db;
             border-radius: 6px;
             font-size: 14px;
+            font-family: inherit;
+        }
+        
+        input {
+            background: white;
         }
         
         input:focus {
             outline: none;
-            ring: 2px;
-            ring-color: #3b82f6;
             border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
         }
         
         button {
@@ -80,59 +108,82 @@
             border: none;
             cursor: pointer;
             font-weight: 500;
+            transition: background-color 0.2s;
         }
         
-        button:hover { background: #2563eb; }
-        button:disabled { background: #9ca3af; cursor: not-allowed; }
+        button:hover:not(:disabled) { 
+            background: #2563eb; 
+        }
+        
+        button:disabled { 
+            background: #9ca3af; 
+            cursor: not-allowed; 
+        }
         
         .btn-green { background: #059669; }
-        .btn-green:hover { background: #047857; }
+        .btn-green:hover:not(:disabled) { background: #047857; }
+        
         .btn-red { background: #dc2626; }
-        .btn-red:hover { background: #b91c1c; }
+        .btn-red:hover:not(:disabled) { background: #b91c1c; }
         
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
-        .grid-7 { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+        .grid {
+            display: grid;
+            gap: 16px;
+        }
         
-        .flex { display: flex; align-items: center; gap: 8px; }
-        .flex-between { display: flex; justify-content: space-between; align-items: center; }
+        .grid-2 { grid-template-columns: 1fr 1fr; }
+        .grid-3 { grid-template-columns: repeat(3, 1fr); }
+        .grid-7 { grid-template-columns: repeat(7, 1fr); gap: 4px; }
+        
+        .flex { 
+            display: flex; 
+            align-items: center; 
+            gap: 8px; 
+        }
+        
+        .flex-between { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+        }
+        
         .flex-1 { flex: 1; }
         
-        .calendar-header {
-            margin-bottom: 16px;
-        }
-        
         .calendar-nav {
-            padding: 8px;
+            padding: 8px 12px;
             background: #f9fafb;
             border: 1px solid #e5e7eb;
-            border-radius: 4px;
+            border-radius: 6px;
             cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
         }
         
-        .calendar-nav:hover { background: #f3f4f6; }
+        .calendar-nav:hover { 
+            background: #f3f4f6; 
+        }
         
         .calendar-day {
-            height: 32px;
-            width: 32px;
+            height: 36px;
+            width: 36px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 14px;
+            font-size: 13px;
             border-radius: 50%;
             border: 1px solid #e5e7eb;
+            margin: 0 auto;
         }
         
         .calendar-day.highlighted {
             background: #3b82f6;
             color: white;
             border-color: #2563eb;
-            font-weight: bold;
+            font-weight: 600;
         }
         
         .calendar-day.today {
-            ring: 2px;
-            ring-color: #dc2626;
+            box-shadow: 0 0 0 2px #dc2626;
         }
         
         .calendar-header-day {
@@ -140,8 +191,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 14px;
-            font-weight: 500;
+            font-size: 12px;
+            font-weight: 600;
             color: #6b7280;
         }
         
@@ -150,33 +201,36 @@
             align-items: center;
             justify-content: space-between;
             background: white;
-            padding: 8px;
+            padding: 12px;
             border: 1px solid #e5e7eb;
-            border-radius: 6px;
+            border-radius: 8px;
             margin-bottom: 8px;
         }
         
-        .hidden { display: none; }
+        .hidden { 
+            display: none !important; 
+        }
         
-        .text-sm { font-size: 12px; }
-        .text-xs { font-size: 10px; color: #6b7280; }
-        .font-mono { font-family: 'Courier New', monospace; }
+        .text-sm { font-size: 14px; }
+        .text-xs { font-size: 12px; color: #6b7280; }
+        .font-mono { font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace; }
         .font-semibold { font-weight: 600; }
         .font-medium { font-weight: 500; }
         
         .increment-preview {
             background: white;
-            padding: 12px;
+            padding: 16px;
             border: 1px solid #e5e7eb;
             border-radius: 6px;
-            font-family: monospace;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
             font-size: 14px;
+            color: #374151;
         }
         
         .legend {
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 24px;
             margin-top: 16px;
             font-size: 12px;
             color: #6b7280;
@@ -194,12 +248,31 @@
             border-radius: 50%;
         }
         
-        .legend-dot.blue { background: #3b82f6; }
-        .legend-dot.red { border: 2px solid #dc2626; background: transparent; }
+        .legend-dot.blue { 
+            background: #3b82f6; 
+        }
+        
+        .legend-dot.red { 
+            border: 2px solid #dc2626; 
+            background: transparent; 
+        }
         
         @media (max-width: 768px) {
-            .grid-2, .grid-3 { grid-template-columns: 1fr; }
-            .container { padding: 16px; margin: 10px; }
+            .grid-2, .grid-3 { 
+                grid-template-columns: 1fr; 
+            }
+            .container { 
+                padding: 16px; 
+                margin: 10px; 
+            }
+            h1 {
+                font-size: 24px;
+            }
+            .legend {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
         }
     </style>
 </head>
@@ -209,8 +282,8 @@
         
         <!-- Start Date Input -->
         <div class="section">
-            <label for="startDate" class="font-medium">Start Date:</label>
-            <input type="date" id="startDate" />
+            <label for="startDate">Start Date:</label>
+            <input type="date" id="startDate">
         </div>
         
         <!-- Increment Settings -->
@@ -219,18 +292,18 @@
                 ⚙️ Increment Settings <span id="settingsToggle">(Show)</span>
             </div>
             <div id="settingsPanel" class="hidden">
-                <div class="grid-2" style="margin-bottom: 16px;">
+                <div class="grid grid-2" style="margin-bottom: 16px;">
                     <div>
-                        <label for="initialIncrement" class="font-medium">Initial Increment (days):</label>
-                        <input type="number" id="initialIncrement" min="1" max="365" value="7" />
+                        <label for="initialIncrement">Initial Increment (days):</label>
+                        <input type="number" id="initialIncrement" min="1" max="365" value="7">
                     </div>
                     <div>
-                        <label for="incrementStep" class="font-medium">Increment Step (days):</label>
-                        <input type="number" id="incrementStep" min="0" max="30" value="2" />
+                        <label for="incrementStep">Increment Step (days):</label>
+                        <input type="number" id="incrementStep" min="0" max="30" value="2">
                     </div>
                 </div>
                 <div>
-                    <h4 class="font-medium" style="margin-bottom: 8px;">Increment Sequence Preview:</h4>
+                    <label>Increment Sequence Preview:</label>
                     <div id="incrementPreview" class="increment-preview"></div>
                 </div>
             </div>
@@ -239,17 +312,19 @@
         <!-- Speed Dial Dates -->
         <div class="section green">
             <div class="section-title green">📌 Speed-Dial Dates</div>
-            <div class="flex" style="margin-bottom: 12px;">
-                <input type="text" id="speedDialLabel" placeholder="Enter label for current settings" class="flex-1" />
+            <div class="flex" style="margin-bottom: 16px;">
+                <input type="text" id="speedDialLabel" placeholder="Enter label for current settings" class="flex-1">
                 <button onclick="saveSpeedDial()" class="btn-green">Save</button>
             </div>
-            <div id="speedDialList"></div>
+            <div id="speedDialList">
+                <p class="text-sm" style="color: #6b7280; font-style: italic;">No saved configurations yet.</p>
+            </div>
         </div>
         
         <!-- Current Date Info -->
         <div class="section gray">
-            <h3 class="font-semibold" style="margin-bottom: 12px;">Today: <span id="todayDate"></span></h3>
-            <div class="grid-3">
+            <h3 class="font-semibold" style="margin-bottom: 16px;">Today: <span id="todayDate"></span></h3>
+            <div class="grid grid-3">
                 <div>
                     <h4 class="font-medium" style="margin-bottom: 8px;">Recent Dates:</h4>
                     <div id="recentDates"></div>
@@ -267,16 +342,16 @@
         
         <!-- Calendar -->
         <div class="section">
-            <div class="flex-between calendar-header">
-                <button class="calendar-nav" onclick="changeMonth(-1)">‹</button>
+            <div class="flex-between" style="margin-bottom: 20px;">
+                <button class="calendar-nav" onclick="changeMonth(-1)">‹ Previous</button>
                 <div style="text-align: center;">
-                    <h3 id="calendarTitle" class="font-semibold"></h3>
-                    <div id="debugInfo" class="text-xs"></div>
+                    <h3 id="calendarTitle" class="font-semibold" style="font-size: 18px;"></h3>
+                    <div id="debugInfo" class="text-xs" style="margin-top: 4px;"></div>
                 </div>
-                <button class="calendar-nav" onclick="changeMonth(1)">›</button>
+                <button class="calendar-nav" onclick="changeMonth(1)">Next ›</button>
             </div>
             
-            <div class="grid-7" style="margin-bottom: 8px;">
+            <div class="grid grid-7" style="margin-bottom: 8px;">
                 <div class="calendar-header-day">Sun</div>
                 <div class="calendar-header-day">Mon</div>
                 <div class="calendar-header-day">Tue</div>
@@ -286,7 +361,7 @@
                 <div class="calendar-header-day">Sat</div>
             </div>
             
-            <div id="calendarGrid" class="grid-7"></div>
+            <div id="calendarGrid" class="grid grid-7"></div>
             
             <div class="legend">
                 <div class="legend-item">
@@ -312,8 +387,8 @@
     </div>
 
     <script>
-        // Global state
-        let state = {
+        // Global application state
+        let appState = {
             startDate: new Date().toISOString().split('T')[0],
             initialIncrement: 7,
             incrementStep: 2,
@@ -323,74 +398,80 @@
             dateSequence: []
         };
 
-        // Initialize
-        document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('startDate').value = state.startDate;
+        // Initialize the application
+        function initApp() {
+            const startDateInput = document.getElementById('startDate');
+            startDateInput.value = appState.startDate;
+            
             updateCurrentViewMonth();
             calculateDateSequence();
-            updateDisplay();
+            updateAllDisplays();
             updateIncrementPreview();
             updateFormula();
-        });
+        }
 
-        // Event listeners
-        document.getElementById('startDate').addEventListener('change', function(e) {
-            state.startDate = e.target.value;
-            calculateDateSequence();
-            updateDisplay();
-        });
+        // Event listeners setup
+        function setupEventListeners() {
+            document.getElementById('startDate').addEventListener('change', function(e) {
+                appState.startDate = e.target.value;
+                calculateDateSequence();
+                updateAllDisplays();
+            });
 
-        document.getElementById('initialIncrement').addEventListener('input', function(e) {
-            state.initialIncrement = parseInt(e.target.value);
-            calculateDateSequence();
-            updateDisplay();
-            updateIncrementPreview();
-            updateFormula();
-        });
+            document.getElementById('initialIncrement').addEventListener('input', function(e) {
+                appState.initialIncrement = parseInt(e.target.value) || 7;
+                calculateDateSequence();
+                updateAllDisplays();
+                updateIncrementPreview();
+                updateFormula();
+            });
 
-        document.getElementById('incrementStep').addEventListener('input', function(e) {
-            state.incrementStep = parseInt(e.target.value);
-            calculateDateSequence();
-            updateDisplay();
-            updateIncrementPreview();
-            updateFormula();
-        });
+            document.getElementById('incrementStep').addEventListener('input', function(e) {
+                appState.incrementStep = parseInt(e.target.value) || 0;
+                calculateDateSequence();
+                updateAllDisplays();
+                updateIncrementPreview();
+                updateFormula();
+            });
 
-        document.getElementById('speedDialLabel').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') saveSpeedDial();
-        });
+            document.getElementById('speedDialLabel').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    saveSpeedDial();
+                }
+            });
+        }
 
         function calculateDateSequence() {
             const dates = [];
-            const [year, month, day] = state.startDate.split('-').map(Number);
-            let currentDate = new Date(year, month - 1, day);
+            const dateParts = appState.startDate.split('-').map(Number);
+            let currentDate = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]);
             dates.push(new Date(currentDate));
             
-            let increment = state.initialIncrement;
+            let increment = appState.initialIncrement;
             
             for (let i = 0; i < 50; i++) {
                 currentDate = new Date(currentDate.getTime() + increment * 24 * 60 * 60 * 1000);
                 dates.push(new Date(currentDate));
-                increment += state.incrementStep;
+                increment += appState.incrementStep;
             }
             
-            state.dateSequence = dates;
+            appState.dateSequence = dates;
         }
 
         function updateCurrentViewMonth() {
             const today = new Date();
-            const targetDate = new Date(today.getTime() + (state.dayOffset * 24 * 60 * 60 * 1000));
-            state.currentViewMonth = new Date(targetDate.getFullYear(), targetDate.getMonth(), 1);
+            const targetDate = new Date(today.getTime() + (appState.dayOffset * 24 * 60 * 60 * 1000));
+            appState.currentViewMonth = new Date(targetDate.getFullYear(), targetDate.getMonth(), 1);
         }
 
         function changeMonth(direction) {
             const daysToMove = direction * 30;
-            state.dayOffset += daysToMove;
+            appState.dayOffset += daysToMove;
             updateCurrentViewMonth();
             updateCalendar();
         }
 
-        function updateDisplay() {
+        function updateAllDisplays() {
             updateTodayInfo();
             updateCalendar();
             updateSpeedDialList();
@@ -402,28 +483,33 @@
             
             const aroundToday = findDatesAroundToday();
             
-            // Recent dates
             const recentEl = document.getElementById('recentDates');
-            recentEl.innerHTML = aroundToday.past.map(date => 
-                `<div class="text-sm">${formatDate(date)}</div>`
-            ).join('');
+            if (aroundToday.past.length > 0) {
+                recentEl.innerHTML = aroundToday.past.map(date => 
+                    '<div class="text-sm">' + formatDate(date) + '</div>'
+                ).join('');
+            } else {
+                recentEl.innerHTML = '<div class="text-sm">No recent dates</div>';
+            }
             
-            // Closest date
             document.getElementById('closestDate').textContent = formatDate(aroundToday.closest);
             
-            // Upcoming dates
             const upcomingEl = document.getElementById('upcomingDates');
-            upcomingEl.innerHTML = aroundToday.future.map(date => 
-                `<div class="text-sm">${formatDate(date)}</div>`
-            ).join('');
+            if (aroundToday.future.length > 0) {
+                upcomingEl.innerHTML = aroundToday.future.map(date => 
+                    '<div class="text-sm">' + formatDate(date) + '</div>'
+                ).join('');
+            } else {
+                upcomingEl.innerHTML = '<div class="text-sm">No upcoming dates</div>';
+            }
         }
 
         function findDatesAroundToday() {
             const todayTime = new Date().getTime();
             let closestIndex = 0;
-            let minDiff = Math.abs(state.dateSequence[0].getTime() - todayTime);
+            let minDiff = Math.abs(appState.dateSequence[0].getTime() - todayTime);
 
-            state.dateSequence.forEach((date, index) => {
+            appState.dateSequence.forEach(function(date, index) {
                 const diff = Math.abs(date.getTime() - todayTime);
                 if (diff < minDiff) {
                     minDiff = diff;
@@ -432,21 +518,21 @@
             });
 
             return {
-                past: state.dateSequence.slice(Math.max(0, closestIndex - 3), closestIndex),
-                closest: state.dateSequence[closestIndex],
-                future: state.dateSequence.slice(closestIndex + 1, closestIndex + 6)
+                past: appState.dateSequence.slice(Math.max(0, closestIndex - 3), closestIndex),
+                closest: appState.dateSequence[closestIndex],
+                future: appState.dateSequence.slice(closestIndex + 1, closestIndex + 6)
             };
         }
 
         function updateCalendar() {
-            const year = state.currentViewMonth.getFullYear();
-            const month = state.currentViewMonth.getMonth();
+            const year = appState.currentViewMonth.getFullYear();
+            const month = appState.currentViewMonth.getMonth();
             
             document.getElementById('calendarTitle').textContent = 
-                state.currentViewMonth.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+                appState.currentViewMonth.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
             
             document.getElementById('debugInfo').textContent = 
-                `Day offset: ${state.dayOffset} | Viewing: ${year}-${month + 1}`;
+                'Day offset: ' + appState.dayOffset + ' | Viewing: ' + year + '-' + (month + 1);
             
             const daysInMonth = new Date(year, month + 1, 0).getDate();
             const firstDay = new Date(year, month, 1).getDay();
@@ -455,12 +541,13 @@
             const grid = document.getElementById('calendarGrid');
             grid.innerHTML = '';
             
-            // Empty cells
+            // Empty cells for days before the first day of the month
             for (let i = 0; i < firstDay; i++) {
-                grid.appendChild(document.createElement('div'));
+                const emptyDiv = document.createElement('div');
+                grid.appendChild(emptyDiv);
             }
             
-            // Days
+            // Calendar days
             for (let day = 1; day <= daysInMonth; day++) {
                 const date = new Date(year, month, day);
                 const dayEl = document.createElement('div');
@@ -468,11 +555,11 @@
                 dayEl.textContent = day;
                 
                 if (isDateInSequence(date)) {
-                    dayEl.classList.add('highlighted');
+                    dayEl.className += ' highlighted';
                 }
                 
                 if (isToday(date, today)) {
-                    dayEl.classList.add('today');
+                    dayEl.className += ' today';
                 }
                 
                 grid.appendChild(dayEl);
@@ -480,9 +567,9 @@
         }
 
         function isDateInSequence(date) {
-            return state.dateSequence.some(seqDate => 
-                seqDate.toDateString() === date.toDateString()
-            );
+            return appState.dateSequence.some(function(seqDate) {
+                return seqDate.toDateString() === date.toDateString();
+            });
         }
 
         function isToday(date, today) {
@@ -525,45 +612,48 @@
         function updateIncrementPreview() {
             const increments = [];
             for (let i = 0; i < 8; i++) {
-                increments.push(state.initialIncrement + (state.incrementStep * i));
+                increments.push(appState.initialIncrement + (appState.incrementStep * i));
             }
             document.getElementById('incrementPreview').textContent = increments.join(' → ') + ' days...';
         }
 
         function updateFormula() {
-            const content = `
-                <div style="margin-bottom: 12px;">
-                    <strong>Current Pattern Explanation:</strong>
-                    <ul style="margin-left: 20px; margin-top: 8px;">
-                        <li>Start with your chosen date</li>
-                        <li>First increment: Add ${state.initialIncrement} days</li>
-                        <li>Second increment: Add ${state.initialIncrement + state.incrementStep} days (${state.initialIncrement} + ${state.incrementStep})</li>
-                        <li>Third increment: Add ${state.initialIncrement + (state.incrementStep * 2)} days (${state.initialIncrement + state.incrementStep} + ${state.incrementStep})</li>
-                        <li>Continue adding ${state.incrementStep} more days to each increment</li>
-                    </ul>
-                </div>
-                
-                <div style="margin-bottom: 12px;"><strong>Custom Formula:</strong></div>
-                <div class="increment-preview">
-                    <p>For increment n (where n starts at 1):</p>
-                    <p>Increment = ${state.initialIncrement} + ${state.incrementStep} × (n - 1)</p>
-                    <p>So: ${getIncrementSequence(5).join(', ')}, ...</p>
-                    <br>
-                    <p>To find the nth date from start:</p>
-                    <p>Total days = Σ(${state.initialIncrement} + ${state.incrementStep} × (i - 1)) for i = 1 to n</p>
-                    ${state.incrementStep !== 0 ? 
-                        `<p>Simplified: Total days = ${state.initialIncrement - state.incrementStep}n + ${state.incrementStep}n²/2</p>` :
-                        `<p>Simplified: Total days = ${state.initialIncrement}n (constant increment)</p>`
-                    }
-                </div>
-            `;
+            const seq5 = getIncrementSequence(5);
+            const content = 
+                '<div style="margin-bottom: 16px;">' +
+                    '<strong>Current Pattern Explanation:</strong>' +
+                    '<ul style="margin-left: 20px; margin-top: 8px; line-height: 1.6;">' +
+                        '<li>Start with your chosen date</li>' +
+                        '<li>First increment: Add ' + appState.initialIncrement + ' days</li>' +
+                        '<li>Second increment: Add ' + (appState.initialIncrement + appState.incrementStep) + ' days (' + appState.initialIncrement + ' + ' + appState.incrementStep + ')</li>' +
+                        '<li>Third increment: Add ' + (appState.initialIncrement + (appState.incrementStep * 2)) + ' days (' + (appState.initialIncrement + appState.incrementStep) + ' + ' + appState.incrementStep + ')</li>' +
+                        '<li>Continue adding ' + appState.incrementStep + ' more days to each increment</li>' +
+                    '</ul>' +
+                '</div>' +
+                '<div style="margin-bottom: 12px;"><strong>Custom Formula:</strong></div>' +
+                '<div class="increment-preview">' +
+                    '<p>For increment n (where n starts at 1):</p>' +
+                    '<p>Increment = ' + appState.initialIncrement + ' + ' + appState.incrementStep + ' × (n - 1)</p>' +
+                    '<p>So: ' + seq5.join(', ') + ', ...</p>' +
+                    '<br>' +
+                    '<p>To find the nth date from start:</p>' +
+                    '<p>Total days = Σ(' + appState.initialIncrement + ' + ' + appState.incrementStep + ' × (i - 1)) for i = 1 to n</p>';
+                    
+            if (appState.incrementStep !== 0) {
+                content += '<p>Simplified: Total days = ' + (appState.initialIncrement - appState.incrementStep) + 'n + ' + appState.incrementStep + 'n²/2</p>';
+            } else {
+                content += '<p>Simplified: Total days = ' + appState.initialIncrement + 'n (constant increment)</p>';
+            }
+            
+            content += '</div>';
+            
             document.getElementById('formulaContent').innerHTML = content;
         }
 
-        function getIncrementSequence(count = 8) {
+        function getIncrementSequence(count) {
             const increments = [];
             for (let i = 0; i < count; i++) {
-                increments.push(state.initialIncrement + (state.incrementStep * i));
+                increments.push(appState.initialIncrement + (appState.incrementStep * i));
             }
             return increments;
         }
@@ -574,63 +664,76 @@
                 const newSpeedDial = {
                     id: Date.now(),
                     label: label,
-                    date: state.startDate,
-                    initialIncrement: state.initialIncrement,
-                    incrementStep: state.incrementStep
+                    date: appState.startDate,
+                    initialIncrement: appState.initialIncrement,
+                    incrementStep: appState.incrementStep
                 };
-                state.speedDialDates.push(newSpeedDial);
+                appState.speedDialDates.push(newSpeedDial);
                 document.getElementById('speedDialLabel').value = '';
                 updateSpeedDialList();
             }
         }
 
-        function selectSpeedDial(item) {
-            state.startDate = item.date;
-            state.initialIncrement = item.initialIncrement;
-            state.incrementStep = item.incrementStep;
+        function selectSpeedDial(id) {
+            const item = appState.speedDialDates.find(function(dial) {
+                return dial.id === id;
+            });
             
-            document.getElementById('startDate').value = state.startDate;
-            document.getElementById('initialIncrement').value = state.initialIncrement;
-            document.getElementById('incrementStep').value = state.incrementStep;
-            
-            calculateDateSequence();
-            updateDisplay();
-            updateIncrementPreview();
-            updateFormula();
+            if (item) {
+                appState.startDate = item.date;
+                appState.initialIncrement = item.initialIncrement;
+                appState.incrementStep = item.incrementStep;
+                
+                document.getElementById('startDate').value = appState.startDate;
+                document.getElementById('initialIncrement').value = appState.initialIncrement;
+                document.getElementById('incrementStep').value = appState.incrementStep;
+                
+                calculateDateSequence();
+                updateAllDisplays();
+                updateIncrementPreview();
+                updateFormula();
+            }
         }
 
         function deleteSpeedDial(id) {
-            state.speedDialDates = state.speedDialDates.filter(item => item.id !== id);
+            appState.speedDialDates = appState.speedDialDates.filter(function(item) {
+                return item.id !== id;
+            });
             updateSpeedDialList();
         }
 
         function updateSpeedDialList() {
             const listEl = document.getElementById('speedDialList');
             
-            if (state.speedDialDates.length === 0) {
+            if (appState.speedDialDates.length === 0) {
                 listEl.innerHTML = '<p class="text-sm" style="color: #6b7280; font-style: italic;">No saved configurations yet. Enter a label above to save the current date and increment settings.</p>';
                 return;
             }
             
-            listEl.innerHTML = `
-                <div style="margin-bottom: 8px;"><h4 class="font-medium">Saved Configurations:</h4></div>
-                ${state.speedDialDates.map(item => `
-                    <div class="speed-dial-item">
-                        <div class="flex-1">
-                            <div class="font-medium">${item.label}</div>
-                            <div class="text-xs">
-                                Date: ${new Date(item.date + 'T00:00:00').toLocaleDateString()} | 
-                                Pattern: ${item.initialIncrement}+${item.incrementStep} days
-                            </div>
-                        </div>
-                        <div class="flex">
-                            <button onclick="selectSpeedDial(${JSON.stringify(item).replace(/"/g, '&quot;')})" class="text-sm">Use</button>
-                            <button onclick="deleteSpeedDial(${item.id})" class="text-sm btn-red">Delete</button>
-                        </div>
-                    </div>
-                `).join('')}
-            `;
+            let html = '<div style="margin-bottom: 8px;"><h4 class="font-medium">Saved Configurations:</h4></div>';
+            
+            appState.speedDialDates.forEach(function(item) {
+                const dateStr = new Date(item.date + 'T00:00:00').toLocaleDateString();
+                html += '<div class="speed-dial-item">' +
+                    '<div class="flex-1">' +
+                        '<div class="font-medium">' + item.label + '</div>' +
+                        '<div class="text-xs">Date: ' + dateStr + ' | Pattern: ' + item.initialIncrement + '+' + item.incrementStep + ' days</div>' +
+                    '</div>' +
+                    '<div class="flex">' +
+                        '<button onclick="selectSpeedDial(' + item.id + ')" style="margin-right: 8px;">Use</button>' +
+                        '<button onclick="deleteSpeedDial(' + item.id + ')" class="btn-red">Delete</button>' +
+                    '</div>' +
+                '</div>';
+            });
+            
+            listEl.innerHTML = html;
         }
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            initApp();
+            setupEventListeners();
+        });
     </script>
 </body>
 </html>
