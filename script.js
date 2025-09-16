@@ -272,7 +272,7 @@ function updateIncrementPreview() {
 function updateFormula() {
     console.log('Updating formula');
     const seq5 = getIncrementSequence(5);
-    const content = 
+    let content = 
         '<div style="margin-bottom: 16px;">' +
             '<strong>Current Pattern Explanation:</strong>' +
             '<ul style="margin-left: 20px; margin-top: 8px; line-height: 1.6;">' +
@@ -301,6 +301,7 @@ function updateFormula() {
     content += '</div>';
     
     document.getElementById('formulaContent').innerHTML = content;
+    console.log('Formula updated successfully');
 }
 
 function getIncrementSequence(count) {
