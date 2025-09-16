@@ -4,11 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Advanced Date Calculator</title>
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- iOS PWA Support -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Date Calculator">
+    <link rel="apple-touch-icon" href="icon-152x152.png">
+    
+    <!-- Android PWA Support -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#3b82f6">
+    
+    <!-- Standard favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="icon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="icon-16x16.png">
+    
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
         <h1>Advanced Date Calculator</h1>
+        
+        <!-- PWA Install Banner (will be shown/hidden by JavaScript) -->
+        <div id="installBanner" class="install-banner hidden">
+            <div class="install-content">
+                <span>📱 Install this app for a better experience!</span>
+                <div>
+                    <button id="installBtn" class="btn-install">Install</button>
+                    <button id="dismissBtn" class="btn-dismiss">Maybe Later</button>
+                </div>
+            </div>
+        </div>
         
         <!-- Start Date Input -->
         <div class="section">
@@ -105,7 +134,7 @@
             </div>
         </div>
         
-        <!-- Formula Section -->
+        <!-- Mathematical Formula Section -->
         <div class="section blue">
             <div class="section-title blue" onclick="toggleFormula()">
                 ℹ️ Mathematical Formula <span id="formulaToggle">(Hide)</span>
@@ -116,6 +145,75 @@
         </div>
     </div>
 
+    <!-- PWA Installation and Service Worker Scripts -->
+    <script>
+        // Register service worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('service-worker.js')
+                    .then(function(registration) {
+                        console.log('ServiceWorker registration successful');
+                    })
+                    .catch(function(err) {
+                        console.log('ServiceWorker registration failed: ', err);
+                    });
+            });
+        }
+
+        // PWA Install prompt
+        let deferredPrompt;
+        const installBanner = document.getElementById('installBanner');
+        const installBtn = document.getElementById('installBtn');
+        const dismissBtn = document.getElementById('dismissBtn');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            // Prevent Chrome 67 and earlier from automatically showing the prompt
+            e.preventDefault();
+            // Stash the event so it can be triggered later.
+            deferredPrompt = e;
+            // Show the install banner
+            installBanner.classList.remove('hidden');
+        });
+
+        installBtn.addEventListener('click', (e) => {
+            // Hide the banner
+            installBanner.classList.add('hidden');
+            // Show the prompt
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                // Wait for the user to respond to the prompt
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('User accepted the install prompt');
+                    } else {
+                        console.log('User dismissed the install prompt');
+                    }
+                    deferredPrompt = null;
+                });
+            }
+        });
+
+        dismissBtn.addEventListener('click', (e) => {
+            installBanner.classList.add('hidden');
+            // Store dismissal in localStorage to not show again for a while
+            localStorage.setItem('installDismissed', Date.now());
+        });
+
+        // Check if already dismissed recently
+        window.addEventListener('load', () => {
+            const dismissed = localStorage.getItem('installDismissed');
+            if (dismissed && (Date.now() - dismissed < 7 * 24 * 60 * 60 * 1000)) { // 7 days
+                installBanner.classList.add('hidden');
+            }
+        });
+
+        // Handle app install
+        window.addEventListener('appinstalled', (evt) => {
+            console.log('App was installed');
+            installBanner.classList.add('hidden');
+        });
+    </script>
+    
     <script src="script.js"></script>
 </body>
 </html>
