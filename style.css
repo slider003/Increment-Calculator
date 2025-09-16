@@ -373,34 +373,3 @@ button:disabled {
         min-height: 100vh;
     }
 }
-
-/* Dark mode support for PWA */
-@media (prefers-color-scheme: dark) {
-    body {
-        background-color: #1f2937;
-        color: #f9fafb;
-    }
-    
-    .container {
-        background: #374151;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
-    }
-    
-    .section {
-        background: #4b5563 !important;
-        border-color: #6b7280;
-        color: #f9fafb;
-    }
-    
-    input {
-        background: #374151;
-        color: #f9fafb;
-        border-color: #6b7280;
-    }
-    
-    .increment-preview {
-        background: #374151;
-        border-color: #6b7280;
-        color: #f9fafb;
-    }
-}
