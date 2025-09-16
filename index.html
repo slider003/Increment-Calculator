@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Date Calculator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Advanced Date Calculator</h1>
+        
+        <!-- Start Date Input -->
+        <div class="section">
+            <label for="startDate">Start Date:</label>
+            <input type="date" id="startDate">
+        </div>
+        
+        <!-- Increment Settings -->
+        <div class="section purple">
+            <div class="section-title purple" onclick="toggleSettings()">
+                ⚙️ Increment Settings <span id="settingsToggle">(Hide)</span>
+            </div>
+            <div id="settingsPanel">
+                <div class="grid grid-2" style="margin-bottom: 16px;">
+                    <div>
+                        <label for="initialIncrement">Initial Increment (days):</label>
+                        <input type="number" id="initialIncrement" min="1" max="365" value="7">
+                    </div>
+                    <div>
+                        <label for="incrementStep">Increment Step (days):</label>
+                        <input type="number" id="incrementStep" min="0" max="30" value="2">
+                    </div>
+                </div>
+                <div>
+                    <label>Increment Sequence Preview:</label>
+                    <div id="incrementPreview" class="increment-preview"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Speed Dial Dates -->
+        <div class="section green">
+            <div class="section-title green">📌 Speed-Dial Dates</div>
+            <div class="flex" style="margin-bottom: 16px;">
+                <input type="text" id="speedDialLabel" placeholder="Enter label for current settings" class="flex-1">
+                <button type="button" onclick="saveSpeedDial()" class="btn-green">Save</button>
+            </div>
+            <div id="speedDialList">
+                <p class="text-sm" style="color: #6b7280; font-style: italic;">No saved configurations yet.</p>
+            </div>
+        </div>
+        
+        <!-- Current Date Info -->
+        <div class="section gray">
+            <h3 class="font-semibold" style="margin-bottom: 16px;">Today: <span id="todayDate"></span></h3>
+            <div class="grid grid-3">
+                <div>
+                    <h4 class="font-medium" style="margin-bottom: 8px;">Recent Dates:</h4>
+                    <div id="recentDates"></div>
+                </div>
+                <div>
+                    <h4 class="font-medium" style="margin-bottom: 8px;">Closest Date:</h4>
+                    <div id="closestDate" class="font-semibold" style="color: #3b82f6;"></div>
+                </div>
+                <div>
+                    <h4 class="font-medium" style="margin-bottom: 8px;">Upcoming Dates:</h4>
+                    <div id="upcomingDates"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Calendar -->
+        <div class="section">
+            <div class="flex-between" style="margin-bottom: 20px;">
+                <button class="calendar-nav" onclick="changeMonth(-1)" type="button">← Previous</button>
+                <div style="text-align: center;">
+                    <h3 id="calendarTitle" class="font-semibold" style="font-size: 18px;"></h3>
+                    <div id="debugInfo" class="text-xs" style="margin-top: 4px;"></div>
+                </div>
+                <button class="calendar-nav" onclick="changeMonth(1)" type="button">Next →</button>
+            </div>
+            
+            <div class="grid grid-7" style="margin-bottom: 8px;">
+                <div class="calendar-header-day">Sun</div>
+                <div class="calendar-header-day">Mon</div>
+                <div class="calendar-header-day">Tue</div>
+                <div class="calendar-header-day">Wed</div>
+                <div class="calendar-header-day">Thu</div>
+                <div class="calendar-header-day">Fri</div>
+                <div class="calendar-header-day">Sat</div>
+            </div>
+            
+            <div id="calendarGrid" class="grid grid-7"></div>
+            
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-dot blue"></div>
+                    <span>Calculated Dates</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-dot red"></div>
+                    <span>Today</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Formula Section -->
+        <div class="section blue">
+            <div class="section-title blue" onclick="toggleFormula()">
+                ℹ️ Mathematical Formula <span id="formulaToggle">(Hide)</span>
+            </div>
+            <div id="formulaPanel">
+                <div id="formulaContent"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
